@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+env/
+
+# ML artifacts
+model/
+
+# Dataset (optional - keep if large)
+dataset/
+
+# OS files
+.DS_Store
+Thumbs.db
