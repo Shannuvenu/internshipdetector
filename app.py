@@ -17,26 +17,30 @@ except:
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
-nltk.download('stopwords')
-
 # ---------- CONFIG ----------
 st.set_page_config(page_title="AI Job Detector", layout="wide")
 
 MODEL_PATH = "model/naive_bayes_model.pkl"
 VEC_PATH = "model/tfidf_vectorizer.pkl"
 
-# ---------- LOAD MODEL ----------
+# ---------- LOAD MODEL SAFELY ----------
 if not os.path.exists(MODEL_PATH) or not os.path.exists(VEC_PATH):
-    st.warning("Training model... please wait")
-    import train_model
+    st.error("❌ Model files missing. Please upload model folder to GitHub.")
+    st.stop()
 
 model = pickle.load(open(MODEL_PATH, "rb"))
 vectorizer = pickle.load(open(VEC_PATH, "rb"))
 
-# ---------- NLP ----------
-stop_words = set(stopwords.words("english"))
+# ---------- DOWNLOAD NLTK ----------
+try:
+    stop_words = set(stopwords.words("english"))
+except:
+    nltk.download('stopwords')
+    stop_words = set(stopwords.words("english"))
+
 stemmer = PorterStemmer()
 
+# ---------- NLP ----------
 def preprocess(text):
     text = text.lower()
     text = text.translate(str.maketrans("", "", string.punctuation))
@@ -256,4 +260,4 @@ if uploaded:
         st.write(highlight(text[:1500], matches))
 
         st.subheader("Keywords")
-        st.write(get_keywords(vector))     
+        st.write(get_keywords(vector))
