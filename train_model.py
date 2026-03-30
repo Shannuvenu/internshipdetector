@@ -58,4 +58,4 @@ with open("model/naive_bayes_model.pkl", "wb") as f:
 with open("model/tfidf_vectorizer.pkl", "wb") as f:
     pickle.dump(vectorizer, f)
 
-print("Model trained and saved!")
+print("Model trained and saved!")      
